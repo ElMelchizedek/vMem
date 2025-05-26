@@ -20,12 +20,15 @@ void Arena_Free(Arena* arena) {
 }
 
 void* Arena_Push(Arena* arena, size_t size) {
-    if ( (arena->offset + size) > arena->size ) {
+    size_t alignment = 8;
+    size_t aligned_offset = (arena->offset + alignment - 1) & ~(alignment - 1);
+    
+    if ( (aligned_offset + size) > arena->size ) {
         return NULL; // Out of memory.
     }
 
-    void* ptr = arena->memory + arena->offset;
-    arena->offset += size;
+    uint8_t* ptr = arena->memory + aligned_offset;
+    arena->offset = aligned_offset + size;
     return ptr;
 }
 
