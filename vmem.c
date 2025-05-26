@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MEGABYTE (1024 * 1024)
-
 Arena Arena_Init(size_t size) {
     const Arena arena = {
         .memory = malloc(size),
